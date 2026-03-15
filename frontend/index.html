@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alwar Women Safety AI - Home</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="aws-body" data-page="home">
+    <div class="aws-container">
+      <header class="aws-header">
+        <div class="aws-nav aws-glass">
+          <a href="/" class="aws-brand aws-logo-link">
+            <span>Alwar Women Safety AI</span>
+          </a>
+          <nav class="aws-nav-links">
+            <a href="/" class="aws-active-link">Home</a>
+            <a href="/explore">Explore</a>
+            <a href="/report">Report</a>
+            <a href="/admin">Admin</a>
+          </nav>
+          <a href="/report" class="aws-btn aws-nav-cta">Quick Report</a>
+        </div>
+
+        <div class="aws-hero aws-glass">
+          <p class="aws-hero-kicker">AI Based Unsafe Area Detection • Alwar Rajasthan</p>
+          <h1 class="aws-hero-title">
+            Experience safer travel with intelligent area risk prediction
+          </h1>
+          <p class="aws-hero-subtitle">
+            Check any region, understand why it is safe or unsafe, and detect your
+            current location with nearest-area safety prediction.
+          </p>
+          <div class="aws-hero-actions">
+            <a href="#checker" class="aws-btn">Check Area Safety</a>
+            <a href="#geolocation" class="aws-btn aws-btn-secondary">Detect My Location</a>
+          </div>
+          <div class="aws-header-meta">
+            <p id="datetime" class="aws-datetime">Loading date and time...</p>
+            <p id="weather-display" class="aws-weather">Loading weather...</p>
+          </div>
+        </div>
+      </header>
+
+      <section id="checker" class="aws-section aws-glass">
+        <h2 class="aws-title">Area Safety Checker</h2>
+        <p class="aws-subtitle">
+          Search any location in Alwar to view dynamic risk score and reason analysis.
+        </p>
+        <div class="aws-checker-controls">
+          <div class="aws-search-wrap">
+            <input
+              id="area-input"
+              class="aws-input"
+              type="text"
+              autocomplete="off"
+              placeholder="Start typing area name (e.g., Company Bagh, Kala Kuan)"
+            />
+            <div id="area-suggestion-box" class="aws-suggestion-box aws-hidden"></div>
+          </div>
+          <button id="check-button" class="aws-btn" type="button">Check</button>
+        </div>
+        <div id="area-error" class="aws-inline-error"></div>
+        <div class="aws-result-wrap">
+          <div id="result-card" class="aws-result-card aws-glass"></div>
+        </div>
+      </section>
+
+      <section id="geolocation" class="aws-section aws-glass">
+        <h2 class="aws-title">Detect My Location</h2>
+        <p class="aws-subtitle">
+          Fetches your current coordinates with high-accuracy mode and predicts safety
+          based on nearest monitored area.
+        </p>
+        <button id="detect-location-btn" class="aws-btn" type="button">
+          Detect Location
+        </button>
+        <div id="location-output" class="aws-location-output"></div>
+      </section>
+
+      <section id="emergency" class="aws-section aws-glass">
+        <h2 class="aws-title">Emergency Contacts</h2>
+        <div class="aws-emergency-grid">
+          <div class="aws-emergency-card aws-glass">
+            <h3>Women Helpline</h3>
+            <a href="tel:1091">Call 1091</a>
+          </div>
+          <div class="aws-emergency-card aws-glass">
+            <h3>Emergency Response</h3>
+            <a href="tel:112">Call 112</a>
+          </div>
+          <div class="aws-emergency-card aws-glass">
+            <h3>Police Control Room</h3>
+            <a href="tel:100">Call 100</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="tips" class="aws-section aws-glass">
+        <h2 class="aws-title">Quick Safety Tips</h2>
+        <div class="aws-flip-grid">
+          <div class="aws-flip-card">
+            <div class="aws-flip-inner">
+              <div class="aws-flip-face">
+                <h3>Travel Smart</h3>
+                <p>Prefer well-lit roads and populated routes.</p>
+              </div>
+              <div class="aws-flip-face aws-flip-back">
+                <p>Share live location with trusted contacts when traveling at night.</p>
+              </div>
+            </div>
+          </div>
+          <div class="aws-flip-card">
+            <div class="aws-flip-inner">
+              <div class="aws-flip-face">
+                <h3>Emergency Ready</h3>
+                <p>Keep emergency numbers on speed dial.</p>
+              </div>
+              <div class="aws-flip-face aws-flip-back">
+                <p>Enable SOS shortcut on your phone for one-tap alert sharing.</p>
+              </div>
+            </div>
+          </div>
+          <div class="aws-flip-card">
+            <div class="aws-flip-inner">
+              <div class="aws-flip-face">
+                <h3>Stay Visible</h3>
+                <p>Avoid isolated shortcuts, especially late evening.</p>
+              </div>
+              <div class="aws-flip-face aws-flip-back">
+                <p>Choose roads with CCTV, shops, and public movement.</p>
+              </div>
+            </div>
+          </div>
+          <div class="aws-flip-card">
+            <div class="aws-flip-inner">
+              <div class="aws-flip-face">
+                <h3>Report Risks</h3>
+                <p>Submit suspicious incidents immediately.</p>
+              </div>
+              <div class="aws-flip-face aws-flip-back">
+                <p>Community reports help the model detect risk faster.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="aws-footer aws-glass">
+        <p>
+          <a href="/explore">Explore Full Safety Map</a> •
+          <a href="/report">Submit Unsafe Incident Report</a>
+        </p>
+        <p>
+          AI Based Unsafe Area Detection System for Women Safety - Alwar Rajasthan
+        </p>
+        <p>
+          Disclaimer: This system provides decision support only. In emergencies,
+          contact local authorities immediately.
+        </p>
+      </footer>
+    </div>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - Alwar Women Safety</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="aws-body">
+    <div class="aws-container">
+      <header class="aws-header aws-glass aws-admin-top">
+        <a href="/" class="aws-brand aws-logo-link">
+          <span>Alwar Women Safety AI</span>
+        </a>
+        <div>
+          <h1 class="aws-title">Admin Dashboard</h1>
+          <p class="aws-subtitle">AI Based Unsafe Area Detection System - Alwar</p>
+        </div>
+      </header>
+
+      <section id="admin-login-screen" class="aws-admin-login aws-glass">
+        <h2 class="aws-title">Admin Login</h2>
+        <p class="aws-subtitle">Enter admin password to access dashboard</p>
+        <input
+          id="admin-password"
+          class="aws-input"
+          type="password"
+          placeholder="Enter admin password"
+        />
+        <p class="aws-note" style="margin: 8px 0 0">
+          Default password: <strong>alwar@admin123</strong>
+        </p>
+        <div class="aws-admin-login-actions">
+          <button id="admin-login-btn" class="aws-btn" type="button">Login</button>
+        </div>
+        <p id="admin-login-message" class="aws-note"></p>
+      </section>
+
+      <section id="admin-dashboard" class="aws-admin-wrap aws-hidden">
+        <section class="aws-section aws-glass">
+          <div class="aws-admin-section-head">
+            <h2 class="aws-title">Dashboard Statistics</h2>
+            <button id="admin-logout-btn" class="aws-btn aws-btn-secondary aws-logout-btn" type="button">
+              Logout
+            </button>
+          </div>
+          <div class="aws-admin-grid">
+            <div class="aws-admin-stat aws-glass">
+              <h4 id="ad-totalAreas">0</h4>
+              <p>Total Areas</p>
+            </div>
+            <div class="aws-admin-stat aws-glass">
+              <h4 id="ad-safe">0</h4>
+              <p>Safe</p>
+            </div>
+            <div class="aws-admin-stat aws-glass">
+              <h4 id="ad-moderate">0</h4>
+              <p>Moderate</p>
+            </div>
+            <div class="aws-admin-stat aws-glass">
+              <h4 id="ad-unsafe">0</h4>
+              <p>Unsafe</p>
+            </div>
+            <div class="aws-admin-stat aws-glass">
+              <h4 id="ad-totalReports">0</h4>
+              <p>Total Reports</p>
+            </div>
+            <div id="ad-pending-card" class="aws-admin-stat aws-glass aws-clickable">
+              <h4 id="ad-pending">0</h4>
+              <p>Pending (Click to view)</p>
+            </div>
+          </div>
+          <p id="admin-global-message" class="aws-note"></p>
+        </section>
+
+        <section class="aws-section aws-glass">
+          <h2 class="aws-title">Areas Management</h2>
+          <div class="aws-admin-search">
+            <input
+              id="admin-area-search"
+              class="aws-input"
+              type="text"
+              placeholder="Search area by name"
+            />
+            <button id="admin-area-search-btn" class="aws-btn aws-admin-search-btn" type="button">
+              Search
+            </button>
+            <button id="admin-area-reset-btn" class="aws-btn aws-btn-secondary" type="button">
+              Reset
+            </button>
+          </div>
+          <div class="aws-report-list">
+            <table class="aws-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>Score</th>
+                  <th>Crime Rate</th>
+                  <th>Lighting</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-areas-table"></tbody>
+            </table>
+          </div>
+
+          <h3>Add New Area</h3>
+          <div class="aws-admin-form" id="add-area-form">
+            <input id="new-name" class="aws-input" placeholder="Name" />
+            <select id="new-category" class="aws-select">
+              <option value="safe">safe</option>
+              <option value="moderate">moderate</option>
+              <option value="unsafe">unsafe</option>
+            </select>
+            <input id="new-score" class="aws-input" type="number" placeholder="Score (0-100)" />
+            <input id="new-crimeRate" class="aws-input" type="number" placeholder="Crime Rate (1-10)" />
+            <select id="new-lighting" class="aws-select">
+              <option value="good">good</option>
+              <option value="poor">poor</option>
+            </select>
+            <input
+              id="new-crowdDensity"
+              class="aws-input"
+              type="number"
+              placeholder="Crowd Density (1-10)"
+            />
+            <input id="new-latitude" class="aws-input" type="number" step="any" placeholder="Latitude" />
+            <input id="new-longitude" class="aws-input" type="number" step="any" placeholder="Longitude" />
+            <input id="new-tip" class="aws-input" placeholder="Safety Tip" style="grid-column: 1 / -1" />
+            <button id="add-area-btn" class="aws-btn" type="button" style="grid-column: 1 / -1">
+              Add Area
+            </button>
+          </div>
+        </section>
+
+        <section id="admin-reports-section" class="aws-section aws-glass">
+          <h2 class="aws-title">Reports Management</h2>
+          <div class="aws-admin-tools">
+            <button type="button" class="aws-mini-btn aws-active" data-report-filter="all">
+              All Reports
+            </button>
+            <button type="button" class="aws-mini-btn" data-report-filter="pending">
+              Pending
+            </button>
+            <button type="button" class="aws-mini-btn" data-report-filter="reviewed">
+              Reviewed
+            </button>
+          </div>
+          <div class="aws-report-list">
+            <table class="aws-table">
+              <thead>
+                <tr>
+                  <th>Area</th>
+                  <th>Reason</th>
+                  <th>Incident</th>
+                  <th>Time</th>
+                  <th>Reported By</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-reports-table"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="aws-section aws-glass">
+          <h2 class="aws-title">Admin Safety Tips</h2>
+          <div class="aws-admin-tips">
+            <article class="aws-admin-tip">
+              <h4>Prioritize Pending Reports</h4>
+              <p>
+                Review pending reports first and mark genuine incidents quickly to keep safety data accurate.
+              </p>
+            </article>
+            <article class="aws-admin-tip">
+              <h4>Verify Repeated Locations</h4>
+              <p>
+                If the same area appears repeatedly, update area score and tip immediately for better public warnings.
+              </p>
+            </article>
+            <article class="aws-admin-tip">
+              <h4>Use Clear Area Tips</h4>
+              <p>
+                Keep area guidance short and practical so users can act quickly during travel.
+              </p>
+            </article>
+          </div>
+        </section>
+      </section>
+    </div>
+
+    <script>
+      const adminLoginScreen = document.getElementById("admin-login-screen");
+      const adminDashboard = document.getElementById("admin-dashboard");
+      const adminLoginMessage = document.getElementById("admin-login-message");
+      const adminGlobalMessage = document.getElementById("admin-global-message");
+      const adminAreasTable = document.getElementById("admin-areas-table");
+      const adminReportsTable = document.getElementById("admin-reports-table");
+      const adminLogoutButton = document.getElementById("admin-logout-btn");
+      const adminAreaSearchInput = document.getElementById("admin-area-search");
+      const adminAreaSearchButton = document.getElementById("admin-area-search-btn");
+      const adminAreaResetButton = document.getElementById("admin-area-reset-btn");
+      const adminReportsSection = document.getElementById("admin-reports-section");
+      const pendingCard = document.getElementById("ad-pending-card");
+
+      let adminAreasCache = [];
+      let adminReportsCache = [];
+      let activeReportFilter = "all";
+      let activeAreaSearchTerm = "";
+      let editingAreaId = null;
+      let adminRefreshIntervalId = null;
+
+      function adminEscapeHtml(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function setLoginMessage(text, isError) {
+        adminLoginMessage.textContent = text;
+        adminLoginMessage.className = `aws-note ${isError ? "aws-unsafe" : "aws-safe"}`;
+      }
+
+      function setGlobalMessage(text, isError) {
+        adminGlobalMessage.textContent = text;
+        adminGlobalMessage.className = `aws-note ${isError ? "aws-unsafe" : "aws-safe"}`;
+      }
+
+      function getAdminPassword() {
+        return sessionStorage.getItem("adminPassword") || "";
+      }
+
+      function requireAdminPassword() {
+        const password = getAdminPassword();
+        if (!password) {
+          setGlobalMessage("Admin session expired. Please log in again.", true);
+        }
+        return password;
+      }
+
+      function hideDashboard() {
+        adminDashboard.classList.add("aws-hidden");
+        adminLoginScreen.classList.remove("aws-hidden");
+        stopAdminAutoRefresh();
+      }
+
+      function showDashboard() {
+        adminLoginScreen.classList.add("aws-hidden");
+        adminDashboard.classList.remove("aws-hidden");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        loadDashboardStats();
+        loadAdminAreas();
+        loadAdminReports();
+        startAdminAutoRefresh();
+      }
+
+      function startAdminAutoRefresh() {
+        stopAdminAutoRefresh();
+
+        adminRefreshIntervalId = setInterval(() => {
+          if (adminDashboard.classList.contains("aws-hidden")) return;
+          loadDashboardStats();
+          loadAdminReports();
+        }, 15000);
+      }
+
+      function stopAdminAutoRefresh() {
+        if (adminRefreshIntervalId) {
+          clearInterval(adminRefreshIntervalId);
+          adminRefreshIntervalId = null;
+        }
+      }
+
+      function handleAdminLogout() {
+        sessionStorage.removeItem("adminGranted");
+        sessionStorage.removeItem("adminPassword");
+        hideDashboard();
+        setLoginMessage("Logged out successfully.", false);
+        document.getElementById("admin-password").value = "";
+      }
+
+      function handleAdminLogin() {
+        const passwordInput = document.getElementById("admin-password");
+        const password = passwordInput.value.trim();
+
+        if (!password) {
+          setLoginMessage("Please enter password.", true);
+          return;
+        }
+
+        fetch("/api/admin/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ password }),
+        })
+          .then((response) =>
+            response
+              .json()
+              .catch(() => ({}))
+              .then((payload) => {
+                if (!response.ok) {
+                  throw new Error(payload.message || "Login failed");
+                }
+                return payload;
+              })
+          )
+          .then((payload) => {
+            if (payload.success) {
+              sessionStorage.setItem("adminGranted", "true");
+              sessionStorage.setItem("adminPassword", password);
+              setLoginMessage("Login successful.", false);
+              passwordInput.value = "";
+              showDashboard();
+            }
+          })
+          .catch((error) => {
+            console.error(`[Admin] Login error: ${error.message}`);
+            setLoginMessage(error.message || "Wrong password", true);
+          });
+      }
+
+      function loadDashboardStats() {
+        fetch("/api/admin/stats")
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`Unable to load stats (${response.status})`);
+            }
+            return response.json();
+          })
+          .then((payload) => {
+            const stats = payload.data || {};
+            document.getElementById("ad-totalAreas").textContent = stats.totalAreas || 0;
+            document.getElementById("ad-safe").textContent = stats.safeCount || 0;
+            document.getElementById("ad-moderate").textContent = stats.moderateCount || 0;
+            document.getElementById("ad-unsafe").textContent = stats.unsafeCount || 0;
+            document.getElementById("ad-totalReports").textContent = stats.totalReports || 0;
+            document.getElementById("ad-pending").textContent = stats.pendingReports || 0;
+          })
+          .catch((error) => {
+            console.error(`[Admin] Stats load failed: ${error.message}`);
+            setGlobalMessage("Unable to load dashboard stats.", true);
+          });
+      }
+
+      function renderAreasTable() {
+        const filteredAreas = adminAreasCache.filter((area) => {
+          if (!activeAreaSearchTerm) return true;
+          return String(area.name || "").toLowerCase().includes(activeAreaSearchTerm);
+        });
+
+        if (!filteredAreas.length) {
+          adminAreasTable.innerHTML = activeAreaSearchTerm
+            ? "<tr><td colspan='6'>No matching area found</td></tr>"
+            : "<tr><td colspan='6'>No areas available</td></tr>";
+          return;
+        }
+
+        const rows = filteredAreas
+          .map((area) => {
+            const mainRow = `
+              <tr>
+                <td>${adminEscapeHtml(area.name)}</td>
+                <td>${adminEscapeHtml(area.category)}</td>
+                <td>${area.score}</td>
+                <td>${area.crimeRate}</td>
+                <td>${adminEscapeHtml(area.lighting)}</td>
+                <td>
+                  <button class="aws-mini-btn" data-action="edit-area" data-id="${area._id}">Edit</button>
+                  <button class="aws-mini-btn aws-mini-danger" data-action="delete-area" data-id="${area._id}">Delete</button>
+                </td>
+              </tr>
+            `;
+
+            if (editingAreaId !== area._id) {
+              return mainRow;
+            }
+
+            const editRow = `
+              <tr data-edit-row="${area._id}">
+                <td colspan="6">
+                  <div class="aws-admin-form">
+                    <input class="aws-input" data-field="name" value="${adminEscapeHtml(area.name)}" />
+                    <select class="aws-select" data-field="category">
+                      <option value="safe" ${area.category === "safe" ? "selected" : ""}>safe</option>
+                      <option value="moderate" ${area.category === "moderate" ? "selected" : ""}>moderate</option>
+                      <option value="unsafe" ${area.category === "unsafe" ? "selected" : ""}>unsafe</option>
+                    </select>
+                    <input class="aws-input" data-field="score" type="number" value="${area.score}" />
+                    <input class="aws-input" data-field="crimeRate" type="number" value="${area.crimeRate}" />
+                    <select class="aws-select" data-field="lighting">
+                      <option value="good" ${area.lighting === "good" ? "selected" : ""}>good</option>
+                      <option value="poor" ${area.lighting === "poor" ? "selected" : ""}>poor</option>
+                    </select>
+                    <input class="aws-input" data-field="crowdDensity" type="number" value="${area.crowdDensity}" />
+                    <input class="aws-input" data-field="latitude" type="number" step="any" value="${area.latitude}" />
+                    <input class="aws-input" data-field="longitude" type="number" step="any" value="${area.longitude}" />
+                    <input class="aws-input" data-field="tip" value="${adminEscapeHtml(area.tip || "")}" style="grid-column: 1 / -1" />
+                    <div style="grid-column: 1 / -1; display: flex; gap: 8px;">
+                      <button class="aws-btn" data-action="save-area" data-id="${area._id}" type="button">Save</button>
+                      <button class="aws-btn aws-btn-secondary" data-action="cancel-edit" type="button">Cancel</button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            `;
+
+            return mainRow + editRow;
+          })
+          .join("");
+
+        adminAreasTable.innerHTML = rows;
+      }
+
+      function applyAreaSearch() {
+        activeAreaSearchTerm = (adminAreaSearchInput?.value || "").trim().toLowerCase();
+        editingAreaId = null;
+        renderAreasTable();
+      }
+
+      function resetAreaSearch() {
+        if (adminAreaSearchInput) {
+          adminAreaSearchInput.value = "";
+        }
+        activeAreaSearchTerm = "";
+        editingAreaId = null;
+        renderAreasTable();
+      }
+
+      function loadAdminAreas() {
+        fetch("/api/areas")
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`Unable to load areas (${response.status})`);
+            }
+            return response.json();
+          })
+          .then((payload) => {
+            adminAreasCache = payload.data || [];
+            renderAreasTable();
+          })
+          .catch((error) => {
+            console.error(`[Admin] Areas load failed: ${error.message}`);
+            adminAreasTable.innerHTML = "<tr><td colspan='6'>Unable to load areas</td></tr>";
+          });
+      }
+
+      function saveEditedArea(areaId) {
+        const password = requireAdminPassword();
+        if (!password) return;
+
+        const editRow = document.querySelector(`tr[data-edit-row="${areaId}"]`);
+        if (!editRow) return;
+
+        const getValue = (field) =>
+          (editRow.querySelector(`[data-field="${field}"]`)?.value || "").trim();
+
+        const payload = {
+          name: getValue("name"),
+          category: getValue("category"),
+          score: Number(getValue("score")),
+          crimeRate: Number(getValue("crimeRate")),
+          lighting: getValue("lighting"),
+          crowdDensity: Number(getValue("crowdDensity")),
+          latitude: Number(getValue("latitude")),
+          longitude: Number(getValue("longitude")),
+          tip: getValue("tip"),
+        };
+
+        if (!payload.name) {
+          setGlobalMessage("Area name is required for update.", true);
+          return;
+        }
+
+        fetch(`/api/areas/${areaId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "x-admin-password": password,
+          },
+          body: JSON.stringify(payload),
+        })
+          .then((response) =>
+            response
+              .json()
+              .catch(() => ({}))
+              .then((data) => {
+                if (!response.ok) {
+                  throw new Error(data.message || "Unable to update area");
+                }
+                return data;
+              })
+          )
+          .then((data) => {
+            setGlobalMessage(data.message || "Area updated successfully.", false);
+            editingAreaId = null;
+            loadAdminAreas();
+            loadDashboardStats();
+          })
+          .catch((error) => {
+            console.error(`[Admin] Area update failed: ${error.message}`);
+            setGlobalMessage(error.message || "Unable to update area.", true);
+          });
+      }
+
+      function deleteArea(areaId) {
+        const password = requireAdminPassword();
+        if (!password) return;
+
+        if (!window.confirm("Delete this area?")) {
+          return;
+        }
+
+        fetch(`/api/areas/${areaId}`, {
+          method: "DELETE",
+          headers: {
+            "x-admin-password": password,
+          },
+        })
+          .then((response) =>
+            response
+              .json()
+              .catch(() => ({}))
+              .then((data) => {
+                if (!response.ok) {
+                  throw new Error(data.message || "Unable to delete area");
+                }
+                return data;
+              })
+          )
+          .then((data) => {
+            setGlobalMessage(data.message || "Area deleted successfully.", false);
+            loadAdminAreas();
+            loadDashboardStats();
+          })
+          .catch((error) => {
+            console.error(`[Admin] Area delete failed: ${error.message}`);
+            setGlobalMessage(error.message || "Unable to delete area.", true);
+          });
+      }
+
+      function addNewArea() {
+        const password = requireAdminPassword();
+        if (!password) return;
+
+        const payload = {
+          name: (document.getElementById("new-name").value || "").trim(),
+          category: document.getElementById("new-category").value,
+          score: Number(document.getElementById("new-score").value),
+          tip: (document.getElementById("new-tip").value || "").trim(),
+          latitude: Number(document.getElementById("new-latitude").value),
+          longitude: Number(document.getElementById("new-longitude").value),
+          crimeRate: Number(document.getElementById("new-crimeRate").value),
+          lighting: document.getElementById("new-lighting").value,
+          crowdDensity: Number(document.getElementById("new-crowdDensity").value),
+        };
+
+        if (
+          !payload.name ||
+          Number.isNaN(payload.score) ||
+          Number.isNaN(payload.latitude) ||
+          Number.isNaN(payload.longitude) ||
+          Number.isNaN(payload.crimeRate) ||
+          Number.isNaN(payload.crowdDensity)
+        ) {
+          setGlobalMessage("Please fill all required fields correctly.", true);
+          return;
+        }
+
+        fetch("/api/areas", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-admin-password": password,
+          },
+          body: JSON.stringify(payload),
+        })
+          .then((response) =>
+            response
+              .json()
+              .catch(() => ({}))
+              .then((data) => {
+                if (!response.ok) {
+                  throw new Error(data.message || "Unable to add area");
+                }
+                return data;
+              })
+          )
+          .then((data) => {
+            setGlobalMessage(data.message || "Area added successfully.", false);
+            document.querySelectorAll("#add-area-form input").forEach((input) => {
+              input.value = "";
+            });
+            document.getElementById("new-category").value = "safe";
+            document.getElementById("new-lighting").value = "good";
+            loadAdminAreas();
+            loadDashboardStats();
+          })
+          .catch((error) => {
+            console.error(`[Admin] Add area failed: ${error.message}`);
+            setGlobalMessage(error.message || "Unable to add area.", true);
+          });
+      }
+
+      function loadAdminReports() {
+        fetch("/api/reports")
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`Unable to load reports (${response.status})`);
+            }
+            return response.json();
+          })
+          .then((payload) => {
+            adminReportsCache = payload.data || payload.reports || [];
+            renderAdminReportsTable();
+            syncReportPointsFromCache();
+          })
+          .catch((error) => {
+            console.error(`[Admin] Reports load failed: ${error.message}`);
+            adminReportsTable.innerHTML = "<tr><td colspan='8'>Unable to load reports</td></tr>";
+          });
+      }
+
+      function syncReportPointsFromCache() {
+        const totalReports = adminReportsCache.length;
+        const pendingReports = adminReportsCache.filter(
+          (report) => (report.status || "pending") === "pending"
+        ).length;
+
+        document.getElementById("ad-totalReports").textContent = totalReports;
+        document.getElementById("ad-pending").textContent = pendingReports;
+      }
+
+      function renderAdminReportsTable() {
+        const reports = adminReportsCache.filter((report) => {
+          if (activeReportFilter === "all") return true;
+          return (report.status || "pending") === activeReportFilter;
+        });
+
+        if (!reports.length) {
+          const emptyMessage =
+            activeReportFilter === "all"
+              ? "No reports yet"
+              : `No ${activeReportFilter} reports`;
+          adminReportsTable.innerHTML = `<tr><td colspan='8'>${emptyMessage}</td></tr>`;
+          return;
+        }
+
+        adminReportsTable.innerHTML = reports
+          .map((report) => {
+            const createdDate = report.createdAt
+              ? new Date(report.createdAt).toLocaleString("en-IN")
+              : "-";
+            const reportStatus = report.status || "pending";
+            const statusClass =
+              reportStatus === "reviewed" ? "aws-status-reviewed" : "aws-status-pending";
+
+            return `
+              <tr>
+                <td>${adminEscapeHtml(report.areaName || "-")}</td>
+                <td>${adminEscapeHtml(report.reason || "-")}</td>
+                <td class="aws-incident-cell">${adminEscapeHtml(report.incidentText || "-")}</td>
+                <td>${adminEscapeHtml(report.timeOfIncident || "-")}</td>
+                <td>${adminEscapeHtml(report.reportedBy || "Anonymous")}</td>
+                <td><span class="aws-status-badge ${statusClass}">${adminEscapeHtml(reportStatus)}</span></td>
+                <td>${adminEscapeHtml(createdDate)}</td>
+                <td>
+                  <button class="aws-mini-btn aws-mini-good" data-action="review-report" data-id="${report._id}">
+                    Mark Reviewed
+                  </button>
+                  <button class="aws-mini-btn aws-mini-danger" data-action="delete-report" data-id="${report._id}">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            `;
+          })
+          .join("");
+      }
+
+      function setReportFilter(filterValue, shouldScroll = false) {
+        activeReportFilter = ["all", "pending", "reviewed"].includes(filterValue)
+          ? filterValue
+          : "all";
+
+        document.querySelectorAll("[data-report-filter]").forEach((button) => {
+          const isActive = button.getAttribute("data-report-filter") === activeReportFilter;
+          button.classList.toggle("aws-active", isActive);
+        });
+
+        renderAdminReportsTable();
+
+        if (shouldScroll && adminReportsSection) {
+          adminReportsSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+
+      function markReportReviewed(reportId) {
+        const password = requireAdminPassword();
+        if (!password) return;
+
+        fetch(`/api/reports/${reportId}/status`, {
+          method: "PUT",
+          headers: {
+            "x-admin-password": password,
+          },
+        })
+          .then((response) =>
+            response
+              .json()
+              .catch(() => ({}))
+              .then((data) => {
+                if (!response.ok) {
+                  throw new Error(data.message || "Unable to update report");
+                }
+                return data;
+              })
+          )
+          .then((data) => {
+            setGlobalMessage(data.message || "Report marked reviewed.", false);
+            loadAdminReports();
+            loadDashboardStats();
+          })
+          .catch((error) => {
+            console.error(`[Admin] Report status update failed: ${error.message}`);
+            setGlobalMessage(error.message || "Unable to update report.", true);
+          });
+      }
+
+      function deleteReport(reportId) {
+        const password = requireAdminPassword();
+        if (!password) return;
+
+        if (!window.confirm("Delete this report?")) {
+          return;
+        }
+
+        fetch(`/api/reports/${reportId}`, {
+          method: "DELETE",
+          headers: {
+            "x-admin-password": password,
+          },
+        })
+          .then((response) =>
+            response
+              .json()
+              .catch(() => ({}))
+              .then((data) => {
+                if (!response.ok) {
+                  throw new Error(data.message || "Unable to delete report");
+                }
+                return data;
+              })
+          )
+          .then((data) => {
+            setGlobalMessage(data.message || "Report deleted.", false);
+            loadAdminReports();
+            loadDashboardStats();
+          })
+          .catch((error) => {
+            console.error(`[Admin] Report delete failed: ${error.message}`);
+            setGlobalMessage(error.message || "Unable to delete report.", true);
+          });
+      }
+
+      document.getElementById("admin-login-btn").addEventListener("click", handleAdminLogin);
+      document.getElementById("add-area-btn").addEventListener("click", addNewArea);
+      if (adminLogoutButton) {
+        adminLogoutButton.addEventListener("click", handleAdminLogout);
+      }
+
+      if (adminAreaSearchButton) {
+        adminAreaSearchButton.addEventListener("click", applyAreaSearch);
+      }
+
+      if (adminAreaResetButton) {
+        adminAreaResetButton.addEventListener("click", resetAreaSearch);
+      }
+
+      if (adminAreaSearchInput) {
+        adminAreaSearchInput.addEventListener("keydown", (event) => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            applyAreaSearch();
+          }
+        });
+      }
+
+      document.querySelectorAll("[data-report-filter]").forEach((button) => {
+        button.addEventListener("click", () => {
+          setReportFilter(button.getAttribute("data-report-filter"), false);
+        });
+      });
+
+      if (pendingCard) {
+        pendingCard.addEventListener("click", () => {
+          setReportFilter("pending", true);
+        });
+      }
+
+      document.getElementById("admin-password").addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          handleAdminLogin();
+        }
+      });
+
+      adminAreasTable.addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-action]");
+        if (!button) return;
+
+        const action = button.getAttribute("data-action");
+        const id = button.getAttribute("data-id");
+
+        if (action === "edit-area") {
+          editingAreaId = id;
+          renderAreasTable();
+          return;
+        }
+
+        if (action === "cancel-edit") {
+          editingAreaId = null;
+          renderAreasTable();
+          return;
+        }
+
+        if (action === "save-area" && id) {
+          saveEditedArea(id);
+          return;
+        }
+
+        if (action === "delete-area" && id) {
+          deleteArea(id);
+        }
+      });
+
+      adminReportsTable.addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-action]");
+        if (!button) return;
+
+        const action = button.getAttribute("data-action");
+        const id = button.getAttribute("data-id");
+
+        if (action === "review-report" && id) {
+          markReportReviewed(id);
+        }
+
+        if (action === "delete-report" && id) {
+          deleteReport(id);
+        }
+      });
+
+      if (sessionStorage.getItem("adminGranted") === "true" && getAdminPassword()) {
+        showDashboard();
+      } else {
+        hideDashboard();
+      }
+    </script>
+  </body>
+</html>

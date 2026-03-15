@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alwar Women Safety AI - Explore</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="aws-body" data-page="explore">
+    <div class="aws-container">
+      <header class="aws-header">
+        <div class="aws-nav aws-glass">
+          <a href="/" class="aws-brand aws-logo-link">
+            <span>Alwar Women Safety AI</span>
+          </a>
+          <nav class="aws-nav-links">
+            <a href="/">Home</a>
+            <a href="/explore" class="aws-active-link">Explore</a>
+            <a href="/report">Report</a>
+            <a href="/admin">Admin</a>
+          </nav>
+          <a href="/report" class="aws-btn aws-nav-cta">Quick Report</a>
+        </div>
+      </header>
+
+      <section id="overview" class="aws-section aws-glass">
+        <h2 class="aws-title">Area Overview</h2>
+        <p class="aws-subtitle">Browse all monitored locations and risk category at a glance.</p>
+        <div class="aws-filter-group">
+          <button type="button" class="aws-filter-btn aws-active" data-filter="all">All</button>
+          <button type="button" class="aws-filter-btn" data-filter="safe">Safe</button>
+          <button type="button" class="aws-filter-btn" data-filter="moderate">Moderate</button>
+          <button type="button" class="aws-filter-btn" data-filter="unsafe">Unsafe</button>
+        </div>
+        <div id="areas-grid" class="aws-areas-grid"></div>
+      </section>
+
+      <section id="map" class="aws-section aws-glass aws-map-box">
+        <h2 class="aws-title">Risk Map</h2>
+        <p class="aws-subtitle">
+          Marker colors show baseline risk category for each monitored area.
+        </p>
+        <div id="aws-map"></div>
+      </section>
+
+      <section id="stats" class="aws-section aws-glass">
+        <h2 class="aws-title">Live Statistics</h2>
+        <div class="aws-stat-grid">
+          <div class="aws-stat-card aws-glass">
+            <h3 id="stat-totalAreas" class="counter" data-target="0">0</h3>
+            <p>Total Areas</p>
+          </div>
+          <div class="aws-stat-card aws-glass">
+            <h3 id="stat-safe" class="counter" data-target="0">0</h3>
+            <p>Safe Areas</p>
+          </div>
+          <div class="aws-stat-card aws-glass">
+            <h3 id="stat-moderate" class="counter" data-target="0">0</h3>
+            <p>Moderate Areas</p>
+          </div>
+          <div class="aws-stat-card aws-glass">
+            <h3 id="stat-unsafe" class="counter" data-target="0">0</h3>
+            <p>Unsafe Areas</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="emergency" class="aws-section aws-glass">
+        <h2 class="aws-title">Emergency Contacts</h2>
+        <div class="aws-emergency-grid">
+          <div class="aws-emergency-card aws-glass">
+            <h3>Women Helpline</h3>
+            <a href="tel:1091">Call 1091</a>
+          </div>
+          <div class="aws-emergency-card aws-glass">
+            <h3>Emergency Response</h3>
+            <a href="tel:112">Call 112</a>
+          </div>
+          <div class="aws-emergency-card aws-glass">
+            <h3>Police Control Room</h3>
+            <a href="tel:100">Call 100</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="tips" class="aws-section aws-glass">
+        <h2 class="aws-title">Quick Safety Tips</h2>
+        <div class="aws-flip-grid">
+          <div class="aws-flip-card">
+            <div class="aws-flip-inner">
+              <div class="aws-flip-face">
+                <h3>Travel Smart</h3>
+                <p>Prefer well-lit roads and populated routes.</p>
+              </div>
+              <div class="aws-flip-face aws-flip-back">
+                <p>Share live location with trusted contacts when traveling at night.</p>
+              </div>
+            </div>
+          </div>
+          <div class="aws-flip-card">
+            <div class="aws-flip-inner">
+              <div class="aws-flip-face">
+                <h3>Emergency Ready</h3>
+                <p>Keep emergency numbers on speed dial.</p>
+              </div>
+              <div class="aws-flip-face aws-flip-back">
+                <p>Enable SOS shortcut on your phone for one-tap alert sharing.</p>
+              </div>
+            </div>
+          </div>
+          <div class="aws-flip-card">
+            <div class="aws-flip-inner">
+              <div class="aws-flip-face">
+                <h3>Stay Visible</h3>
+                <p>Avoid isolated shortcuts, especially late evening.</p>
+              </div>
+              <div class="aws-flip-face aws-flip-back">
+                <p>Choose roads with CCTV, shops, and public movement.</p>
+              </div>
+            </div>
+          </div>
+          <div class="aws-flip-card">
+            <div class="aws-flip-inner">
+              <div class="aws-flip-face">
+                <h3>Report Risks</h3>
+                <p>Submit suspicious incidents immediately.</p>
+              </div>
+              <div class="aws-flip-face aws-flip-back">
+                <p>Community reports help the model detect risk faster.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="aws-footer aws-glass">
+        <p>
+          AI Based Unsafe Area Detection System for Women Safety - Alwar Rajasthan
+        </p>
+      </footer>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "ai-unsafe-area-detection-alwar",
+  "version": "1.0.0",
+  "description": "AI Based Unsafe Area Detection System for Women Safety - Alwar Rajasthan",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "nodemon --watch backend --ext js,json backend/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.5.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}

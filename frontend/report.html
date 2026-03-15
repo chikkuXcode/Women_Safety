@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alwar Women Safety AI - Report Incident</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="aws-body" data-page="report">
+    <div class="aws-container">
+      <header class="aws-header">
+        <div class="aws-nav aws-glass">
+          <a href="/" class="aws-brand aws-logo-link">
+            <span>Alwar Women Safety AI</span>
+          </a>
+          <nav class="aws-nav-links">
+            <a href="/">Home</a>
+            <a href="/explore">Explore</a>
+            <a href="/report" class="aws-active-link">Report</a>
+            <a href="/admin">Admin</a>
+          </nav>
+          <a href="/" class="aws-btn aws-nav-cta">Back Home</a>
+        </div>
+      </header>
+
+      <section class="aws-section aws-glass">
+        <p class="aws-hero-kicker">Community Safety Network</p>
+        <h1 class="aws-title">Report Unsafe Incident</h1>
+        <p class="aws-subtitle">
+          Submit incident details. Public list shows only active pending reports,
+          and reviewed reports disappear automatically.
+        </p>
+      </section>
+
+      <section id="report" class="aws-section aws-glass aws-report-shell" data-show-reviewed="false">
+        <div class="aws-report-layout">
+          <div class="aws-report-panel">
+            <h2 class="aws-title">Submit Report</h2>
+            <div class="aws-report-grid">
+              <div>
+                <label for="report-areaName">Area Name</label>
+                <input
+                  id="report-areaName"
+                  class="aws-input"
+                  type="text"
+                  list="report-area-suggestions"
+                  placeholder="Type area name"
+                />
+                <datalist id="report-area-suggestions"></datalist>
+              </div>
+              <div>
+                <label for="report-reason">Reason</label>
+                <select id="report-reason" class="aws-select">
+                  <option>Poor Lighting</option>
+                  <option>Suspicious Activity</option>
+                  <option>No Police Patrol</option>
+                  <option>Isolated Road</option>
+                  <option>History of Incidents</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div>
+                <label for="report-timeOfIncident">Time of Incident</label>
+                <input
+                  id="report-timeOfIncident"
+                  class="aws-input"
+                  type="text"
+                  placeholder="e.g., 10:30 PM"
+                />
+              </div>
+              <div>
+                <label for="report-reportedBy">Reported By</label>
+                <input
+                  id="report-reportedBy"
+                  class="aws-input"
+                  type="text"
+                  placeholder="Anonymous"
+                />
+              </div>
+              <div class="aws-full">
+                <label for="report-incidentText">Incident Details</label>
+                <textarea
+                  id="report-incidentText"
+                  class="aws-input aws-textarea"
+                  placeholder="Write what happened, exact place cues, and any suspicious details"
+                ></textarea>
+              </div>
+              <div class="aws-full">
+                <button id="submit-report-btn" class="aws-btn" type="button">
+                  Submit Report
+                </button>
+                <div id="report-message" class="aws-report-message"></div>
+              </div>
+            </div>
+          </div>
+
+          <aside class="aws-report-side">
+            <div class="aws-report-side-card aws-glass">
+              <h3>Before submitting</h3>
+              <ul class="aws-analysis-list">
+                <li>Enter correct area name for faster review.</li>
+                <li>Choose the closest reason for better classification.</li>
+                <li>Add incident time if possible.</li>
+                <li>Use anonymous option if privacy is needed.</li>
+              </ul>
+            </div>
+            <div class="aws-report-side-card aws-glass">
+              <h3>Live status</h3>
+              <p class="aws-subtitle">
+                This page auto-refreshes active pending reports every 15 seconds.
+              </p>
+            </div>
+          </aside>
+        </div>
+
+        <p class="aws-report-status-note">
+          Showing only active pending reports. Reviewed reports are hidden automatically.
+        </p>
+
+        <div class="aws-report-list">
+          <table class="aws-table">
+            <thead>
+              <tr>
+                <th>Area</th>
+                <th>Reason</th>
+                <th>Incident</th>
+                <th>Time</th>
+                <th>By</th>
+                <th>Status</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="reports-table"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <footer class="aws-footer aws-glass">
+        <p>Thanks for helping keep Alwar safer for women.</p>
+      </footer>
+    </div>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
