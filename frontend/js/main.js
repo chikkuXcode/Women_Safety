@@ -646,6 +646,67 @@ function awsGetLocationPrediction(latitude, longitude, addressData = null) {
     });
 }
 
+function awsGetNearbyAreas(latitude, longitude, radiusKm = 5) {
+  return fetch(`/api/areas/nearby/${latitude}/${longitude}?radius=${radiusKm}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Nearby areas API failed (${response.status})`);
+      }
+      return response.json();
+    })
+    .then((payload) => {
+      return payload.data || [];
+    })
+    .catch((error) => {
+      console.error(`[Frontend] Failed to fetch nearby areas: ${error.message}`);
+      return [];
+    });
+}
+
+function awsRenderNearbyAreas(nearbyAreas) {
+  const nearbyContainer = document.getElementById("nearby-areas-container");
+  if (!nearbyContainer) return;
+
+  if (!nearbyAreas || nearbyAreas.length === 0) {
+    nearbyContainer.innerHTML = "<p>No nearby monitored areas found.</p>";
+    return;
+  }
+
+  const areasHtml = nearbyAreas
+    .map((item) => {
+      const { area, distanceKm, finalScore, adjustedCategory, reasons } = item;
+      const categoryClass = awsCategoryPillClass(adjustedCategory);
+      
+      return `
+        <div class="aws-nearby-area aws-glass" data-area-name="${awsEscapeHtml(area.name)}">
+          <div class="aws-nearby-header">
+            <h4>${awsEscapeHtml(area.name)}</h4>
+            <span class="aws-distance">${distanceKm.toFixed(2)} km away</span>
+          </div>
+          <div class="aws-nearby-meta">
+            <span class="aws-category-pill ${categoryClass}">${awsEscapeHtml(awsCategoryLabel(adjustedCategory))}</span>
+            <span class="aws-score"><strong>Score: ${finalScore}/100</strong></span>
+          </div>
+          <p class="aws-tip">${awsEscapeHtml(area.tip || "Stay alert and use emergency contacts if required.")}</p>
+          <div class="aws-nearby-reasons">
+            <strong>Safety Factors:</strong>
+            <ul>
+              ${reasons.map((reason) => `<li>${awsEscapeHtml(reason)}</li>`).join("")}
+            </ul>
+          </div>
+        </div>
+      `;
+    })
+    .join("");
+
+  nearbyContainer.innerHTML = `
+    <h3>Nearby Monitored Areas (within 5km)</h3>
+    <div class="aws-nearby-areas-grid">
+      ${areasHtml}
+    </div>
+  `;
+}
+
 function awsGetBestCurrentPosition() {
   return new Promise((resolve, reject) => {
     if (!navigator.geolocation) {
@@ -768,10 +829,10 @@ function detectLocation() {
         .then((addressData) =>
           Promise.all([
             Promise.resolve(addressData),
-            awsGetLocationPrediction(latitude, longitude, addressData),
+            awsGetNearbyAreas(latitude, longitude, 5),
           ])
         )
-        .then(([addressData, prediction]) => {
+        .then(([addressData, nearbyAreas]) => {
           const address = addressData?.display_name || "Address unavailable";
           const locality =
             addressData?.address?.suburb ||
@@ -783,42 +844,7 @@ function detectLocation() {
             addressData?.address?.city ||
             "";
 
-          let predictionHtml =
-            "<p><strong>Prediction:</strong> Unable to predict safety right now.</p>";
-
-          if (prediction) {
-            const categoryClass = awsCategoryPillClass(prediction.adjustedCategory);
-            const isOutsideCoverage = prediction.nearestDistanceKm > 8;
-            const approxNote =
-              prediction.matchType === "locality"
-                ? "Prediction matched your detected locality name and nearby monitored region."
-                : isOutsideCoverage
-                  ? "You are outside core monitored coverage, so this is an approximate nearest-area prediction."
-                  : "Prediction is based on nearest monitored region and dynamic modifiers.";
-
-            predictionHtml = `
-              <p>
-                <strong>Nearest Monitored Area:</strong> ${awsEscapeHtml(
-                  prediction.area.name
-                )} (${prediction.nearestDistanceKm.toFixed(2)} km away)
-              </p>
-              <p>
-                <strong>Predicted Safety:</strong>
-                <span class="aws-category-pill ${categoryClass}">${awsEscapeHtml(
-              awsCategoryLabel(prediction.adjustedCategory)
-            )}</span>
-                <strong>${prediction.finalScore}/100</strong>
-              </p>
-              <p class="aws-analysis-heading">Why this prediction:</p>
-              <ul class="aws-analysis-list">
-                ${prediction.reasons
-                  .map((reason) => `<li>${awsEscapeHtml(reason)}</li>`)
-                  .join("")}
-              </ul>
-              <p>${awsEscapeHtml(approxNote)}</p>
-            `;
-          }
-
+          // Show current location info
           locationOutput.innerHTML = `
             <div class="aws-location-card">
               <p><strong>Latitude:</strong> ${latitude.toFixed(6)}</p>
@@ -833,9 +859,19 @@ function detectLocation() {
               }
               <p><strong>Address:</strong> ${awsEscapeHtml(address)}</p>
               <p><strong>Distance from Alwar center:</strong> ${distanceKm} km</p>
-              ${predictionHtml}
+              <div id="nearby-areas-container" class="aws-nearby-areas">Loading nearby areas...</div>
             </div>
           `;
+
+          // Display nearby areas
+          if (nearbyAreas && nearbyAreas.length > 0) {
+            awsRenderNearbyAreas(nearbyAreas);
+          } else {
+            const container = document.getElementById("nearby-areas-container");
+            if (container) {
+              container.innerHTML = "<p>No nearby monitored areas found within 5km. You may be in an area outside current coverage.</p>";
+            }
+          }
         });
 
       if (awsMap) {

@@ -976,6 +976,138 @@ body {
   gap: 12px;
 }
 
+/* Nearby Areas Styling */
+.aws-nearby-areas {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.aws-nearby-areas h3 {
+  margin: 0 0 16px 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.aws-nearby-areas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.aws-nearby-area {
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.aws-nearby-area:hover {
+  transform: translateY(-2px);
+  border-color: rgba(79, 70, 229, 0.2);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
+}
+
+.aws-nearby-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  gap: 10px;
+}
+
+.aws-nearby-header h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0f172a;
+  flex: 1;
+  word-break: break-word;
+}
+
+.aws-distance {
+  display: inline-block;
+  padding: 4px 10px;
+  background: rgba(79, 70, 229, 0.08);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  color: #4f46e5;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.aws-nearby-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.aws-nearby-meta .aws-category-pill {
+  padding: 4px 10px;
+  font-size: 0.85rem;
+}
+
+.aws-nearby-meta .aws-score {
+  font-size: 0.9rem;
+  color: #475569;
+}
+
+.aws-nearby-area .aws-tip {
+  margin: 10px 0;
+  padding: 10px;
+  background: rgba(79, 70, 229, 0.04);
+  border-left: 3px solid #4f46e5;
+  border-radius: 6px;
+  color: #475569;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.aws-nearby-reasons {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.aws-nearby-reasons strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: #0f172a;
+}
+
+.aws-nearby-reasons ul {
+  margin: 0;
+  padding-left: 18px;
+  list-style: disc;
+}
+
+.aws-nearby-reasons li {
+  margin: 6px 0;
+  color: #475569;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .aws-nearby-areas-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .aws-nearby-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .aws-distance {
+    align-self: flex-start;
+  }
+}
+
 .aws-admin-tip {
   padding: 14px;
   border-radius: 14px;
